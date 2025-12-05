@@ -1,0 +1,13 @@
+# Settings to manage and configure a Firebase App Hosting backend.
+# https://firebase.google.com/docs/app-hosting/configure
+runConfig:
+  # Increase this value if you'd like to automatically spin up
+  # more instances in response to increased traffic.
+  maxInstances: 1
+  # Set a timeout for server responses.
+  timeoutSeconds: 120
+# Optionally configure a service account for your backend to access other
+# Google Cloud products and services.
+# https://firebase.google.com/docs/app-hosting/configure#access-other-google-products
+# serviceAccount:
+#   name: my-service-account

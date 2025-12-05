@@ -1,0 +1,48 @@
+{
+  "loginCarousel": [
+    {
+      "src": "https://picsum.photos/seed/login1/800/1200",
+      "alt": "Students in a classroom",
+      "hint": "classroom students"
+    },
+    {
+      "src": "https://picsum.photos/seed/login2/800/1200",
+      "alt": "Teacher helping a student",
+      "hint": "teacher student"
+    },
+    {
+      "src": "https://picsum.photos/seed/login3/800/1200",
+      "alt": "Children playing in a schoolyard",
+      "hint": "school playground"
+    }
+  ],
+  "loginSlideshow": [
+    {
+      "src": "/login-slide-1.png",
+      "alt": "Students collaborating in a modern classroom",
+      "hint": "students collaborating"
+    },
+    {
+      "src": "/login-slide-2.png",
+      "alt": "A university library with students studying",
+      "hint": "university library"
+    },
+    {
+      "src": "/login-slide-3.png",
+      "alt": "Teacher giving a lecture in a classroom",
+      "hint": "teacher lecture"
+    }
+  ],
+  "loginPage": {
+    "admin": {
+      "src": "https://picsum.photos/seed/adminLogin1/800/1200",
+      "alt": "Students studying together in a classroom environment.",
+      "hint": "students studying"
+    }
+  },
+  "teachersCorner": {
+    "src": "/teacher-ai-banner.png",
+    "alt": "A futuristic image of a robot or AI helping in a classroom setting.",
+    "hint": "robot teacher"
+  }
+}

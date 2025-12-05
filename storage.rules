@@ -1,0 +1,28 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // --- Rule for Profile Pictures ---
+    // Allow a user to upload their own profile pictures.
+    // The path contains the user's UID, which we match against their auth UID.
+    match /profilePictures/{uid}/{allPaths=**} {
+      allow read: if true; // Allow anyone to read profile pictures
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // --- Rule for School Logos ---
+    // Allow a user to upload logos for schools they are associated with.
+    // This is a common pattern for multi-tenant applications.
+    match /schoolLogos/{uid}/{allPaths=**} {
+      allow read: if true; // Allow anyone to read school logos
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // --- Default Deny ---
+    // Deny all other reads and writes to any other paths by default.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

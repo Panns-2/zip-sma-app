@@ -1,0 +1,16 @@
+{
+  "name": "PannsPay",
+  "short_name": "PannsPay",
+  "description": "Fee Tracker for Panns Education Centre",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a2e57",
+  "theme_color": "#0a2e57",
+  "icons": [
+    {
+      "src": "logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

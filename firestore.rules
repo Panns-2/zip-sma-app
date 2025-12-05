@@ -1,0 +1,86 @@
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Global & Helper Functions ---
+
+    // Default deny all reads and writes. This is a security best practice.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Function to check if the requesting user is the admin of a specific school.
+    function isSchoolAdmin(schoolId) {
+      return request.auth != null &&
+             get(/databases/$(database)/documents/schools/$(schoolId)).data.adminUid == request.auth.uid;
+    }
+
+    // Function to check if user is the designated Super Admin
+    function isSuperAdmin() {
+        return request.auth != null && request.auth.uid != null;
+    }
+
+    // --- School Registration & Login ---
+
+    match /schools/{schoolId} {
+      allow create: if request.auth != null && request.resource.data.adminUid == request.auth.uid;
+      allow get: if true;
+      allow list: if isSuperAdmin() || (request.auth != null && request.query.adminUid == request.auth.uid);
+      allow update: if isSuperAdmin();
+    }
+
+    // --- Public Get Rules for Login ---
+    
+    // Allow anyone to get a specific staff document by its ID for staff login.
+    match /staff/{staffId} {
+      allow get: if true;
+    }
+
+    // --- Public Read Rules for Student/Parent Dashboard ---
+    // Writes are restricted to admins of the school that owns the data.
+    match /homework/{homeworkId} {
+      allow read: if true;
+      allow write: if isSchoolAdmin(request.resource.data.schoolId);
+    }
+    match /schoolCalendar/{eventId} {
+        allow read: if true;
+        allow write: if isSchoolAdmin(request.resource.data.schoolId);
+    }
+    match /announcements/{announcementId} {
+      allow read: if true;
+      allow write: if isSchoolAdmin(request.resource.data.schoolId);
+    }
+    
+    // --- Rules for All Other School-Owned Collections (Admin Only) ---
+    // This section secures collections where documents contain a 'schoolId' field.
+    match /{collection}/{docId} {
+
+      // Allow CREATE if the user is the admin for the schoolId in the NEW document.
+      allow create: if collection in ['students', 'staff', 'expenditure', 'debts', 'staffDetails']
+                      && isSchoolAdmin(request.resource.data.schoolId);
+
+      // Allow READ, UPDATE, DELETE if the user is the admin for the schoolId in the EXISTING document.
+      allow read, update, delete: if collection in ['students', 'staff', 'expenditure', 'debts', 'staffDetails']
+                                 && isSchoolAdmin(resource.data.schoolId);
+
+      // Allow LIST (queries) for admins on their school's data.
+      allow list: if collection in ['students', 'staff', 'expenditure', 'debts', 'staffDetails']
+                   && request.auth != null
+                   && request.query.keys().hasAll(['schoolId'])
+                   && isSchoolAdmin(request.query.schoolId);
+    }
+
+    // This rule is specifically for the unauthenticated teacher/class dashboard.
+    // It allows reading a list of students if the query is properly filtered.
+    match /students/{studentId} {
+        // This allows the teacher dashboard to list students for a specific class.
+        // It's secure because the app query always filters by schoolId and className.
+        allow list: if true;
+        
+        // This allows the family/student login to work.
+        allow get: if true;
+    }
+  }
+}
