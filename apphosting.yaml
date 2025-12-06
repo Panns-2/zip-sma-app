@@ -6,8 +6,22 @@ runConfig:
   maxInstances: 1
   # Set a timeout for server responses.
   timeoutSeconds: 120
-# Optionally configure a service account for your backend to access other
-# Google Cloud products and services.
-# https://firebase.google.com/docs/app-hosting/configure#access-other-google-products
-# serviceAccount:
-#   name: my-service-account
+repository:
+  owner: Panns-2
+  name: zipsma-app
+  branch: main
+secretEnv:
+  - secret: NEXT_PUBLIC_FIREBASE_API_KEY
+    env: NEXT_PUBLIC_FIREBASE_API_KEY
+  - secret: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    env: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+  - secret: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    env: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+  - secret: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    env: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+  - secret: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    env: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+  - secret: NEXT_PUBLIC_FIREBASE_APP_ID
+    env: NEXT_PUBLIC_FIREBASE_APP_ID
+  - secret: NEXT_PUBLIC_FIREBASE_DATABASE_URL
+    env: NEXT_PUBLIC_FIREBASE_DATABASE_URL
